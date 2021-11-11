@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
 // User route group
 Route::group(['prefix'=>'user','middleware'=>['auth','permission:system.user']],function(){
     Route::get('/', 'UserController@index')->name('user.index');
