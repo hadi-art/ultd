@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <!-- Minified CSS and JS -->
+    <link   rel="stylesheet"
+            href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+    <script src="{{asset('bootstrap/js/bootstrap.min.js')}}">
+    </script>
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -53,7 +61,18 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <a href="{{route('auth/google')}}"><img src="{{asset('/images/googlesignin3.png')}}" width="40%" height="100%" ></a>
+{{--                                <a href="{{route('auth/google')}}"><img src="{{asset('/images/googlesignin3.png')}}" width="40%" height="100%" ></a>--}}
+{{--                                <a href="#"><button type="button" style="background:#4285f4; color:white; border:none; width:110px; height:37px; border-radius:3%;"><img src="https://www.iconfinder.com/data/icons/social-media-2210/24/Google-512.png" style="width:30px; background:white; border-radius:50%;" alt=""><b style="top: -2px; left: 5px; position: relative">Google Sign In</b></button></a>--}}
+
+
+
+                                        <a class="btn btn-outline-dark" href="{{route('auth/google')}}" role="button" style="text-transform:none">
+                                            <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                                            Google Sign In
+                                        </a>
+
+
+
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
