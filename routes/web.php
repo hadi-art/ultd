@@ -76,3 +76,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/diah', 'HomeController@diah')->name('diah');
 Route::get('/hadi', 'HomeController@hadi')->name('hadi');
+
+
+Route::get('auth/google', 'Auth\LoginController@redirectToGoogle')->name('auth/google');
+
+Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
+Route::get('callback', 'Auth\LoginController@handleGoogleCallback');
