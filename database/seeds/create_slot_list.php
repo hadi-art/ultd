@@ -13,6 +13,7 @@ class create_slot_list extends Seeder
     public function run()
     {
 
+        DB::table('lp_session_time')->truncate();
         $class = DB::table('class_info')
             ->get();
 
@@ -115,11 +116,19 @@ class create_slot_list extends Seeder
 //            dd($time_slot);
 
                 for($b=0;$b<count($time_slot);$b++){
+                    $slot_number = $time_slot[$b]['number'];
+                    if($slot_number == 4){
+                        $subject_id = 1;
+                    }
+                    else{
+                        $subject_id = (rand(2,12));
+                    }
+
                     DB::table('lp_session_time')->insert([
                         'year' => date('Y'),
                         'slot_number' => $time_slot[$b]['number'],
                         'day_of_week' => $day,
-                        'subject_id' => 1,
+                        'subject_id' => $subject_id,
                         'start_time' => $time_slot[$b]['start_time'],
                         'end_time' => $time_slot[$b]['end_time'],
                         'class_id' => $class[$a]->id,

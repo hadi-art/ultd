@@ -32,10 +32,11 @@ class HomeController extends Controller
         $user_profile = DB::table('user_profile')
             ->where('user_id',$user->id)
             ->first();
+        $class_id = $user_profile->class_id;
         if($user_profile->type == 1){
             //is student
             //show time table
-            return self::student_timetable($user_profile);
+            return self::student_timetable($class_id);
         }
 
         if($user_profile->type == 2){
@@ -47,7 +48,7 @@ class HomeController extends Controller
     }
 
 
-    public static function student_timetable($user_profile){
+    public static function student_timetable($class_id){
 
         $ddate = date("Y-m-d");
         $date = new DateTime($ddate);
@@ -94,11 +95,11 @@ class HomeController extends Controller
         }
 
         $class_info = DB::table('class_info')
-            ->where('id',$user_profile->class_id)
+            ->where('id',$class_id)
             ->first();
 
         $slot_info = DB::table('lp_session_time')
-            ->where('class_id',$user_profile->class_id)
+            ->where('class_id',$class_id)
             ->get();
 
 
@@ -134,10 +135,17 @@ class HomeController extends Controller
             ->where('day_of_week',$day)
             ->select('lp_session_time.subject_id','lp_subject.name as subject_name','lp_subject.icon')
             ->first();
-        $subject_name = $class_info->subject_name;
-//        return $subject_name;
+//        dd($class_info);
+        if($class_info){
+            $subject_name = $class_info->subject_name;
+            $icon = $class_info->icon;
+        }
+        else{
+            $subject_name = 'none';
+            $icon = "/none.png";
+        }
         return view('timetable-subject')
-            ->with('icon',$class_info->icon)
+            ->with('icon',$icon)
             ->with('subject',$subject_name);
     }
 
