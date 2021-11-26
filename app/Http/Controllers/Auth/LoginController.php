@@ -77,6 +77,7 @@ class LoginController extends Controller
             return redirect('/home');
 
         }else{
+            dd('user not found');
             $newUser = User::updateOrCreate([
                 'name' => $user->name,
                 'email' => $user->email,
