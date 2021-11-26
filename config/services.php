@@ -30,9 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'google' => [
-        'client_id' => '444931489361-3b98brv4umtk42pve5brd0stfggeugjq.apps.googleusercontent.com',
-        'client_secret' => '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',
-        'redirect' => 'http://ultd-sandbox.staging.wmerpi.com:8090/auth/google/callback',
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT'),
 ],
 
 ];
