@@ -77,8 +77,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/diah', 'HomeController@diah')->name('diah');
 Route::get('/hadi', 'HomeController@hadi')->name('hadi');
 
-
+//google logim
 Route::get('auth/google', 'Auth\LoginController@redirectToGoogle')->name('auth/google');
-
 Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
 Route::get('callback', 'Auth\LoginController@handleGoogleCallback');
+
+//fb login
+Route::get('auth/facebook', 'Auth\LoginController@redirectToFacebook')->name('auth/facebook');
+Route::get('auth/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
+Route::get('callback', 'Auth\LoginController@handleFacebookCallback');

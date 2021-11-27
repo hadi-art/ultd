@@ -8,6 +8,9 @@
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}">
     </script>
 
+    @if(Session::has('message'))
+        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+    @endif
 
 <div class="container">
     <div class="row justify-content-center">
@@ -67,7 +70,7 @@
 
 
                                         <a class="btn btn-outline-dark" href="{{route('auth/google')}}" role="button" style="text-transform:none">
-                                            <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                                            <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="{{asset('/images/Google__G__Logo.svg.png')}}" />
                                             Google Sign In
                                         </a>
 

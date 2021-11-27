@@ -11,6 +11,7 @@ use Socialite;
 use Auth;
 use Exception;
 use App\User;
+use Session;
 
 class LoginController extends Controller
 {
@@ -77,7 +78,49 @@ class LoginController extends Controller
             return redirect('/home');
 
         }else{
+            Session::flash('message', "Tiada aktif rekod untuk $user->email dalam sistem ULTD");
+            Session::flash('alert-class', 'alert-danger');
+            return redirect('/login');
+            #return redirect()->back();
+        }
+
+    }
+
+    public function redirectToFacebook()
+
+    {
+
+        return Socialite::driver('facebook')->redirect();
+
+    }
+
+    public function handleFacebookCallback()
+
+    {
+
+        $user = Socialite::driver('facebook')->user();
+        dd($user);
+        $finduser = User::where('email', $user->email)->first();
+
+        if($finduser){
+            Auth::login($finduser);
+//            dd('still not register',$user);
+            DB::table('users')
+                ->where('email',$user->email)
+                ->update([
+                    'name' => $user->name,
+                    'google_id'=> $user->id,
+                    'updated_at'=> date('Y-m-d H:i:s'),
+                    'token'=> $user->token,
+                    'icon'=>$user->avatar,
+                ]);
+
+            return redirect('/home');
+
+        }else{
             dd('user not found');
+//            return redirect()->back();
+//            return redirect('/login');
             $newUser = User::updateOrCreate([
                 'name' => $user->name,
                 'email' => $user->email,
@@ -92,36 +135,7 @@ class LoginController extends Controller
             #return redirect()->back();
         }
 
-        dd('hh');
-
-
-        try {
-
-            $user = Socialite::driver('google')->user();
-
-            $finduser = User::where('email', $user->email)->first();
-
-            if($finduser){
-                Auth::login($finduser);
-                dd('still not register',$user);
-                return redirect('/home');
-
-            }else{
-                $newUser = User::updateOrCreate([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'google_id'=> $user->id,
-                    'icon'=>$user->picture,
-                ]);
-                Auth::login($newUser);
-                return redirect('/home');
-                #return redirect()->back();
-            }
-        } catch (Exception $e) {
-            return redirect('auth/google');
-        }
-
-}
+    }
 
 
 }

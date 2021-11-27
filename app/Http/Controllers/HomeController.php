@@ -108,10 +108,10 @@ class HomeController extends Controller
 
 //        $time_slot = json_decode($class_info->time_slot,true);
 
-
+        $user = Auth::user();
         return view('timetable')
             ->with('this_week',$this_week)
-//            ->with('time_slot',$time_slot)
+            ->with('user',$user)
             ->with('slot_info',$slot_info)
             ->with('class_info',$class_info);
 
