@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+Use Alert;
+Use Session;
 
 class HomeController extends Controller
 {
@@ -27,16 +29,32 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-
 //get user profle
         $user_profile = DB::table('user_profile')
             ->where('user_id',$user->id)
             ->first();
         $class_id = $user_profile->class_id;
+
+//        alert()->success('Title','Lorem Lorem Lorem');
+//        Alert::success('Success Title', 'Success Message');
+//        toast("Welcome $user->name !",'success');
+//        alert()->image('Image Title!','Image Description',$user->icon,'200','100','aaaa');
+
+        $user_info = [
+            'user_profile' => $user_profile,
+            'user_details' => $user
+        ];
+
+        Session::put('user_info', $user_info);
+
         if($user_profile->type == 1){
             //is student
             //show time table
-            return self::student_timetable($class_id);
+            $year = date('Y');
+            $ddate = date("Y-m-d");
+            $date = new DateTime($ddate);
+            $week = $date->format("W");
+            return self::student_timetable($class_id,$year,$week);
         }
 
         if($user_profile->type == 2){
@@ -47,12 +65,20 @@ class HomeController extends Controller
 
     }
 
-
-    public static function student_timetable($class_id){
-
+    public function home(){
+        $user_info = Session::get('user_info');
+        $user_profile = $user_info['user_profile'];
+        $user_details = $user_info['user_details'];
+        $class_id = $user_profile->class_id;
+        $year = date('Y');
         $ddate = date("Y-m-d");
         $date = new DateTime($ddate);
         $week = $date->format("W");
+        return self::student_timetable($class_id,$year,$week);
+    }
+
+    public static function student_timetable($class_id,$year,$week){
+
 //        echo "Weeknummer: $week";
         $this_week['week_number'] = $week;
 //        echo date("Y-m-d H:i:s");
@@ -108,9 +134,12 @@ class HomeController extends Controller
 
 //        $time_slot = json_decode($class_info->time_slot,true);
 
-        $user = Auth::user();
+        $user_info = Session::get('user_info');
+        $user = $user_info['user_details'];
         return view('timetable')
             ->with('this_week',$this_week)
+            ->with('year',$year)
+            ->with('week',$week)
             ->with('user',$user)
             ->with('slot_info',$slot_info)
             ->with('class_info',$class_info);
@@ -126,14 +155,14 @@ class HomeController extends Controller
         return $time_slot_info;
     }
 
-    public static function get_subject_slot_info($class_id,$slot_number,$year,$day){
+    public static function get_subject_slot_info($class_id,$slot_number,$year,$day,$week){
         $class_info = DB::table('lp_session_time')
             ->leftJoin('lp_subject','lp_session_time.subject_id','=','lp_subject.id')
             ->where('class_id',$class_id)
             ->where('year',$year)
             ->where('slot_number',$slot_number)
             ->where('day_of_week',$day)
-            ->select('lp_session_time.subject_id','lp_subject.name as subject_name','lp_subject.icon')
+            ->select('lp_session_time.subject_id','lp_subject.name as subject_name','lp_subject.icon','lp_session_time.id')
             ->first();
 //        dd($class_info);
         if($class_info){
@@ -145,7 +174,10 @@ class HomeController extends Controller
             $icon = "/none.png";
         }
         return view('timetable-subject')
+            ->with('class_info',$class_info)
             ->with('icon',$icon)
+            ->with('year',$year)
+            ->with('week',$week)
             ->with('subject',$subject_name);
     }
 

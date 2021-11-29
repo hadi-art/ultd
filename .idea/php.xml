@@ -132,6 +132,8 @@
       <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
       <path value="$PROJECT_DIR$/vendor/laravel/socialite" />
       <path value="$PROJECT_DIR$/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/vendor/realrashid/sweet-alert" />
+      <path value="$PROJECT_DIR$/vendor/arrilot/laravel-widgets" />
     </include_path>
   </component>
   <component name="PhpUnit">

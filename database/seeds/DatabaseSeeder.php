@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         $this->call(create_slot_list::class);
+        $this->call(userpermission::class);
     }
 }

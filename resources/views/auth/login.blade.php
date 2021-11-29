@@ -8,9 +8,10 @@
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}">
     </script>
 
-    @if(Session::has('message'))
-        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-    @endif
+{{--    @if(Session::has('message'))--}}
+{{--        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>--}}
+{{--    @endif--}}
+
 
 <div class="container">
     <div class="row justify-content-center">

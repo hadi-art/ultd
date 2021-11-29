@@ -74,8 +74,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/diah', 'HomeController@diah')->name('diah');
-Route::get('/hadi', 'HomeController@hadi')->name('hadi');
 
 //google logim
 Route::get('auth/google', 'Auth\LoginController@redirectToGoogle')->name('auth/google');
@@ -86,3 +84,16 @@ Route::get('callback', 'Auth\LoginController@handleGoogleCallback');
 Route::get('auth/facebook', 'Auth\LoginController@redirectToFacebook')->name('auth/facebook');
 Route::get('auth/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
 Route::get('callback', 'Auth\LoginController@handleFacebookCallback');
+
+
+//lesson plan
+Route::group(['prefix'=>'lp'],function() {
+    Route::get('/', 'LpController@index')->name('lp.index');
+    Route::get('/get_lp_slot_info', 'LpController@get_lp_slot_info')->name('lp.slot_info');
+});
+
+//lesson plan
+Route::group(['prefix'=>'schedule'],function() {
+    Route::get('/home', 'HomeController@home')->name('schedule.home');
+
+});

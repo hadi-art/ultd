@@ -5,10 +5,13 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -36,4 +39,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function getUserIds($roleIds)
+    {
+        return DB::table('model_has_roles')
+            ->select('model_id')
+            ->whereIn('role_id', $roleIds)
+            ->where('model_type','App\User')
+            ->pluck('model_id');
+    }
 }

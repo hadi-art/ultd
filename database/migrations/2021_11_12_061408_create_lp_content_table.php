@@ -18,6 +18,9 @@ class CreateLpContentTable extends Migration
             $table->integer('subject_id')->default(0)->nullable()->comment('id of subject');
             $table->integer('created_by')->default(0)->nullable()->comment('user id');
             $table->string('topic')->default('')->comment('topic of lesson plan');
+            $table->integer('year')->default(2021)->comment('year');
+            $table->integer('week')->default(1)->comment('week number');
+            $table->integer('lp_session_time_id')->default(0)->comment('week lp_session_time_id');
             $table->string('lesson')->default('')->comment('lesson expected to student');
             $table->string('focus_goals')->default('')->comment('focus of the plan');
             $table->string('objective')->default('')->comment('objective');

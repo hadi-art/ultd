@@ -8,13 +8,40 @@
 </head>
 <body>
 <div id="header">
-    <div> <a href="index.html"><img src="{{asset('specialscooltemplate/images/ultd-logo3.PNG')}}" alt=""></a>
+    @php
+        $route_name = Route::currentRouteName();
+        $routeList = \Route::getRoutes();
+
+        #$routeList = json_encode($routeList);
+        #$routeList = json_decode($routeList,true);
+        #dd($routeList);
+        #for($a=0;$a<count($routeList->nameList);$a++){
+        #$array_name = $routeList->nameList[$a];
+        #    $current_class[$array_name]= "class='current'";
+        #}
+    $home_active = "";
+    $lp_active = "";
+
+    $current_active = "class='current'";
+    if($route_name == 'schedule.home'){
+        $home_active = $current_active;
+    }
+    if($route_name == 'lp.index'){
+        $lp_active = $current_active;
+    }
+    @endphp
+
+
+    <div> <a href="#"><img src="{{asset('specialscooltemplate/images/ultd-logo3.PNG')}}" alt=""></a>
         <ul>
-            <li class="current"><a href="index.html">Utama</a></li>
-            <li><a href="#">Guru</a></li>
-            <li><a href="#">Murid</a></li>
-            <li><a href="#">Jadual</a></li>
+            <li @php echo $home_active;@endphp><a href="{{route('home')}}">Home</a></li>
+            <li @php echo $lp_active;@endphp><a href="{{route('lp.index')}}">Lesson Plan</a></li>
+            <li><a href="#">Student</a></li>
+{{--            <li @php echo $home_active;@endphp><a href="{{route('schedule.home')}}">Schedule</a></li>--}}
 {{--            <li><a href="#">Hubungi</a></li>--}}
+            @can('system.roles')
+                <li><a href="/role">Roles & Permission</a></li>
+            @endcan
 
             <li>
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -31,9 +58,11 @@
     </div>
 </div>
 <div id="content">
+    @include('sweetalert::alert')
 
     <div>
         @yield('content')
+
     </div>
 </div>
 <div id="footer">

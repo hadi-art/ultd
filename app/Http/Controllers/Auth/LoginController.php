@@ -12,6 +12,7 @@ use Auth;
 use Exception;
 use App\User;
 use Session;
+Use Alert;
 
 class LoginController extends Controller
 {
@@ -75,11 +76,16 @@ class LoginController extends Controller
                     'icon'=>$user->avatar,
                 ]);
 
+            toast("Welcome $user->name !",'success');
+
             return redirect('/home');
 
         }else{
-            Session::flash('message', "Tiada aktif rekod untuk $user->email dalam sistem ULTD");
-            Session::flash('alert-class', 'alert-danger');
+//            Session::flash('message', "No active record for $user->email");
+//            Session::flash('alert-class', 'alert-danger');
+
+            toast("No active record for $user->email !",'warning');
+
             return redirect('/login');
             #return redirect()->back();
         }
